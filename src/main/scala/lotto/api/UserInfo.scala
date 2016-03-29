@@ -1,4 +1,4 @@
-package loto
+package lotto.api
 
 case class UserInfo(email: Email,
 					name: String,

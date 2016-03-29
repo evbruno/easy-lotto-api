@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/easy-loto -Dhttp.port=$PORT
+web: target/universal/stage/bin/easy-lotto-api -Dhttp.port=$PORT

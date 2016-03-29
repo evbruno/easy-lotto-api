@@ -1,14 +1,13 @@
 import akka.actor.ActorSystem
 import akka.event.Logging
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.typesafe.config.ConfigFactory
-import loto.{GoogleRoutes, ApiRoute}
+import lotto.api.ApiRoute
 
 import scala.concurrent.ExecutionContextExecutor
 
-object AkkaHttpMicroservice extends App with ApiRoute with GoogleRoutes {
+object EasyLottoApiApp extends App with ApiRoute {
 
 	implicit val system = ActorSystem()
 	implicit val executor: ExecutionContextExecutor = system.dispatcher
@@ -17,7 +16,7 @@ object AkkaHttpMicroservice extends App with ApiRoute with GoogleRoutes {
 
 	val logger = Logging(system, getClass)
 
-	val allRoutes = apiRoute ~ staticFilesRoute ~ googleRoute
+	val allRoutes = apiRoute
 
 	Http().bindAndHandle(allRoutes, config.getString("http.interface"), config.getInt("http.port"))
 

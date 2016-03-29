@@ -1,12 +1,14 @@
+package lotto.jobs
 
-import loto.Result
+
+import lotto.api._
 import net.ruippeixotog.scalascraper.browser.Browser
 import net.ruippeixotog.scalascraper.dsl.DSL.Parse._
 import net.ruippeixotog.scalascraper.dsl.DSL._
 
 import scala.collection.mutable.ArrayBuffer
 
-class LotoFacilHtmlParser(fileName: String) extends loto.LotoLogger {
+class LotoFacilHtmlParser(fileName: String) extends lotto.api.LottoLogger {
 
 	line
 	info(s"File to parser: $fileName")
@@ -52,7 +54,7 @@ class LotoFacilHtmlParser(fileName: String) extends loto.LotoLogger {
 
 //object Spike extends App {
 //
-//	val p = new LotoFacilHtmlParser("/tmp/D_LOTFAC.HTM")
+//	val p = new lotto.jobs.LotoFacilHtmlParser("/tmp/D_LOTFAC.HTM")
 //	val r = p.parse
 //
 //	println(r)

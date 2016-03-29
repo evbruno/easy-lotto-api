@@ -1,4 +1,4 @@
-package loto
+package lotto.api
 
 import spray.json._
 

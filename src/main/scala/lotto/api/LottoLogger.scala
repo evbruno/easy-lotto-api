@@ -1,6 +1,6 @@
-package loto
+package lotto.api
 
-trait LotoLogger {
+trait LottoLogger {
 
 	private val width = 80
 	private val _char = "#"

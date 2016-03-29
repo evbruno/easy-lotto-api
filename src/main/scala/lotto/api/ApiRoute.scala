@@ -1,4 +1,4 @@
-package loto
+package lotto.api
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.coding.Gzip
@@ -14,7 +14,7 @@ import scala.concurrent.Future
 trait ApiRoute extends BetProtocols
 	with MiscDirectives
 	with RespondWithDirectives
-	with LotoLogger
+	with LottoLogger
 	with EnableCORSDirectives {
 
 	import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
@@ -59,6 +59,9 @@ trait ApiRoute extends BetProtocols
 
 
 	val apiRoute =
+		path("") {
+			complete("Hello there (=")
+		} ~
 		(extraDirectives & pathPrefix("api")) {
 
 			(get & path("ping")) {

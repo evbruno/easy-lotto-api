@@ -1,4 +1,6 @@
-# Easy Loto
+# Easy Lotto API
+
+**API & Backend for easy-lotto services.**
 
 
 ## Run
@@ -8,6 +10,8 @@ Start services with sbt:
 ```
 $ sbt
 > ~re-start
+
+$ sbt jobs/run
 ```
 
 
@@ -19,26 +23,6 @@ Execute tests using `test` command:
 $ sbt
 > test
 ```
-
-
-## WebDev tips
- 
-**Start the _api server_ and run _another server_ for the web (html/js/css) dev.**
-  
-```bash
- $ npm install -g live-server
- $ cd src/main/resources/www
- $ live-server --port=9001
-```
-
-## Auth
-
-https://console.developers.google.com/apis/
-
-
-## Extras
-
-https://github.com/jrudolph/sbt-dependency-graph
 
 
 ## Heroku dev

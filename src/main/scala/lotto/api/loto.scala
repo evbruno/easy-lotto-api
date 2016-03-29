@@ -1,5 +1,7 @@
+package lotto
 
-package object loto {
+
+package object api {
 
 	type Numbers = IndexedSeq[Int]
 

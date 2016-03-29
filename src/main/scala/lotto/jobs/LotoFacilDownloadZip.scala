@@ -1,3 +1,4 @@
+package lotto.jobs
 
 import java.io.{File, FileOutputStream}
 import java.net.{CookieHandler, CookieManager, CookiePolicy, URL}
@@ -9,7 +10,7 @@ import org.apache.commons.io.IOUtils
 import scala.language.postfixOps
 import scala.sys.process._
 
-class LotoFacilDownloadZip extends loto.LotoLogger {
+class LotoFacilDownloadZip extends lotto.api.LottoLogger {
 
 	CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL))
 

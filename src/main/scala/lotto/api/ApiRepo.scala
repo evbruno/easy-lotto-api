@@ -1,8 +1,6 @@
-package loto
+package lotto.api
 
 import com.mongodb.casbah.Imports._
-import com.mongodb.casbah.TypeImports
-import org.bson.types.ObjectId
 
 object ApiRepo {
 
@@ -43,12 +41,6 @@ object ApiRepo {
 	}
 
 	def betsFor(draw: Draw) : List[Bet] = {
-//		val query = MongoDBObject(
-//						"from" -> MongoDBObject("$lte" -> draw),
-//						"to" -> MongoDBObject("$gte" -> draw),
-//						"source" -> MongoDBObject("$eq" -> LOTO)
-//					)
-
 		val query = ("from" $lte draw) ++
 					("to" $gte draw) ++
 					("source" $eq LOTO)
@@ -197,7 +189,7 @@ object ApiRepo {
 
 	// workspaces
 
-	protected[loto] def whiteList(email: String) =
+	protected[api] def whiteList(email: String) =
 		dbWhiteList.insert(MongoDBObject(
 			"email" -> email
 		))
