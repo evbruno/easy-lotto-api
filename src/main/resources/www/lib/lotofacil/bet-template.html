@@ -1,0 +1,188 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-6">
+        <ul class="breadcrumb">
+            <li><a href="#/loto">Lotofácil</a></li>
+            <li data-bind="css: { 'active' : ! currentBet() }">Apostas</li>
+            <li class="active" data-bind="text: currentBet, visible: currentBet() "></li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+
+    <!-- Bets ---------------------------------------------------------------------------------------------------->
+
+    <div class="col-md-6">
+
+        <div class="panel panel-primary panel-loto">
+            <div class="panel-heading">
+                Lotofácil Apostas
+
+            </div>
+            <div class="panel-body">
+
+                <table class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th width="1">Jogo</th>
+                        <th>Números</th>
+                    </tr>
+                    </thead>
+                </table>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- /Bets ------------------------------------------------------------------------------------------------------->
+
+    <div class="col-md-6">
+
+        <!-- Current Bet ----------------------------------------------------------------------------------------------->
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">Aposta Atual</div>
+
+            <div class="panel-body">
+
+                <form data-bind="submit: save">
+                    <!-- ko if: errorMessage -->
+                    <div class="alert alert-warning">
+                        <h4>Aviso!</h4>
+                        <p data-bind="text: errorMessage"></p>
+                    </div>
+                    <!-- /ko -->
+
+                    <table class="table table-condensed table-bordered bet-grid">
+                        <tbody>
+                        <!-- ko foreach: { data: lotofacilGrid, as: 'row' } -->
+                        <tr>
+                            <!-- ko foreach: { data: row, as: 'col' } -->
+                            <td>
+                                <button type="button" style="font-weight: bold; width: 100%;" class="btn"
+                                        data-bind="text: col,
+                                                click: $parents[1].addBetValue,
+                                                css: { 'btn-raised btn-primary' : $parents[1].isSelected(col) }"></button>
+                            </td>
+                            <!-- /ko -->
+                        </tr>
+                        <!-- /ko -->
+                        </tbody>
+                    </table>
+
+                    <div class="pull-right">
+                        <span class="text-info" style="font-size: 0.8em;" data-bind="text: remainingValues">15</span>
+                        <button class="btn btn-default btn-raised btn-sm" type="button"
+                                data-bind="click: addBetValueInMatrix, enable: canAddValuesToTheMatrix()">
+                            <i class="fa fa-plus"></i>
+                            Mais números
+                        </button>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p class="text-warning text-center" data-bind="if: currentValuesMatrix().length == 0 ">
+                                    Por favor, escolha ao menos uma combinação.
+                                </p>
+
+                                <ul class="small-list">
+                                    <!-- ko foreach: currentValuesMatrix -->
+                                    <li>
+                                        <a data-bind="click: $parent.removeValueFromMatrix" title="Apagar esta combinação"
+                                           class="btn btn-default btn-raised">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        <a data-bind="click: $parent.addValueFromMatrix, text: $data"
+                                           title="Editar esta combinação"
+                                           class="btn btn-link"></a>
+                                    </li>
+                                    <!-- /ko -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="bet-draw-begin">De: </label>
+                        <div class="col-md-9">
+                            <input type="number" min="1700" max="2999" id="bet-draw-begin" class="form-control"
+                                   placeholder="Primeiro Concurso" title="Primeiro Concurso" data-bind="textInput: drawBegin" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="bet-draw-end">Até: </label>
+                        <div class="col-md-9">
+                            <input type="number" min="1700" max="2999" id="bet-draw-end" class="form-control"
+                                   placeholder="Último Concurso" title="Último Concurso" required />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-md-3 control-label">Participantes</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="email" class="form-control" id="inputEmail" data-bind="textInput: betEmail, event: { keydown: addEmailOnEnter }"
+                                       placeholder="Email"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-fab btn-fab-mini" data-bind="click: addEmail">
+                                        <i class="material-icons">add</i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <p class="text-info text-center" data-bind="if: currentEmails().length == 0 ">
+                                        Nenhum outro participante adicionado.
+                                    </p>
+
+                                    <ol class="small-list">
+                                        <!-- ko foreach: currentEmails -->
+                                        <li>
+                                            <a data-bind="click: $parent.removeEmail" title="Apagar esta email"
+                                               class="btn btn-default">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                            <a data-bind="click: $parent.updateEmail, text: $data"
+                                               title="Atualizar este email"
+                                               class="btn btn-link"></a>
+                                        </li>
+                                        <!-- /ko -->
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-7 col-md-offset-3">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-floppy-o"></i>
+                                Salvar
+                            </button>
+                            <button class="btn btn-danger" type="reset" data-bind="click: resetForm">Reset</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- /Current Bet ---------------------------------------------------------------------------------------------->
+
+    </div>
+
+</div>
