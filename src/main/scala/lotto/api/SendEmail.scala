@@ -29,7 +29,9 @@ object SendEmail extends LottoLogger {
 		val from = "bot@bruno.etc.br"
 		val subject = "Easy Lotto API"
 
-		val jsonBody = s"""{From: '$from', To: '$to', Subject: '$subject', HtmlBody: '$emailBody'}"""
+		val emailBody2 = emailBody.replaceAll("'", "\\'")
+
+		val jsonBody = s"""{From: '$from', To: '$to', Subject: '$subject', HtmlBody: '$emailBody2'}"""
 
 		line
 		info(s"Sending email. Json: $jsonBody")
