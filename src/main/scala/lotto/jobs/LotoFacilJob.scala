@@ -35,7 +35,7 @@ object LotoFacilJob extends lotto.api.LottoLogger {
 		info("####@@@@@@@ ")
 
 		try {
-			//SendEmail.send(emailContent)
+			SendEmail.send(emailContent)
 		} catch {
 			case x : Throwable => {
 				info("Error sending email")
