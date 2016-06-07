@@ -49,7 +49,7 @@ object LotofacilJob extends lotto.api.LottoLogger {
 		line
 	}
 
-	private def resultsFor(apiRepo: ApiRepo, last: Draw, results: ArrayBuffer[Result]) =
+	private def resultsFor(apiRepo: ApiRepo, last: Draw, results: Seq[Result]) =
 		if (last == results.last.draw)
 			"Records are on date. Nothing else to do..."
 		else {

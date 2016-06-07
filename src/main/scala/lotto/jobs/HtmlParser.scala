@@ -22,25 +22,24 @@ abstract class HtmlParser extends lotto.api.LottoLogger {
 	lazy val doc = browser.parseFile(fileName)
 
 	type Line = Seq[String]
-	type LineBuff = scala.collection.mutable.ArrayBuffer[Line]
 
-	private def parseLines: LineBuff = {
+	private lazy val parseLines: Seq[Line] = {
 
 		val trs = doc >> extractor("tr", asIs)
 		info(s"Count 'trs': ${trs.size}")
 
-		var lines = new LineBuff()
+		//		var lines = new LineBuff()
+		//
+		//		trs.foreach { tr =>
+		//			val tds: Iterable[String] = tr >> "td"
+		//			if (tds.size >= minColumns)
+		//				lines += tds.toSeq
+		//		}
 
-		trs.foreach { tr =>
-			val tds: Iterable[String] = tr >> "td"
-			if (tds.size >= minColumns)
-				lines += tds.toSeq
-		}
-
-		lines
+		trs.map(_ >> "td").filter(_.size > minColumns).map(_.toSeq).toSeq
 	}
 
-	def parse: ArrayBuffer[Result] = {
+	def parse: Seq[Result] = {
 		parseLines.map { line =>
 			val numbers = line.slice(numbersRange._1, numbersRange._2).map(_.toInt).sorted.toIndexedSeq
 			val draw = line(0).toInt
@@ -48,6 +47,7 @@ abstract class HtmlParser extends lotto.api.LottoLogger {
 			val prizes = prizesTransformer(line)
 
 			Result(draw = draw, numbers = numbers, drawDate = date, prizes = prizes)
+			
 		}.sortBy(r => r.draw)
 	}
 
