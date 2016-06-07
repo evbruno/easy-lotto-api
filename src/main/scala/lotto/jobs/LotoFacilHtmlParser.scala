@@ -13,14 +13,4 @@ class LotofacilHtmlParser(val fileName: String) extends HtmlParser {
 		(12 -> line(28)) ::
 		(11 -> line(29)) :: Nil
 
-
 }
-
-//object Spike extends App {
-//
-//	val p = new lotto.jobs.LotoFacilHtmlParser("/tmp/D_LOTFAC.HTM")
-//	val r = p.parse
-//
-//	println(r)
-//
-//}

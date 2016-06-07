@@ -24,18 +24,7 @@ abstract class HtmlParser extends lotto.api.LottoLogger {
 	type Line = Seq[String]
 
 	private lazy val parseLines: Seq[Line] = {
-
 		val trs = doc >> extractor("tr", asIs)
-		info(s"Count 'trs': ${trs.size}")
-
-		//		var lines = new LineBuff()
-		//
-		//		trs.foreach { tr =>
-		//			val tds: Iterable[String] = tr >> "td"
-		//			if (tds.size >= minColumns)
-		//				lines += tds.toSeq
-		//		}
-
 		trs.map(_ >> "td").filter(_.size > minColumns).map(_.toSeq).toSeq
 	}
 
@@ -47,7 +36,7 @@ abstract class HtmlParser extends lotto.api.LottoLogger {
 			val prizes = prizesTransformer(line)
 
 			Result(draw = draw, numbers = numbers, drawDate = date, prizes = prizes)
-			
+
 		}.sortBy(r => r.draw)
 	}
 

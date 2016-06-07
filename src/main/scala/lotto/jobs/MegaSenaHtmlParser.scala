@@ -12,12 +12,3 @@ class MegaSenaHtmlParser(val fileName: String) extends HtmlParser {
 		(4 -> line(16)) :: Nil
 
 }
-
-//object Spike extends App {
-//
-//	val p = new lotto.jobs.MegaSenaHtmlParser("/tmp/d_megasc.htm")
-//	val r = p.parse
-//
-//	println(r)
-//
-//}

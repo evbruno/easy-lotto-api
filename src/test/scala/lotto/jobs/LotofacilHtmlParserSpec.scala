@@ -4,7 +4,6 @@ import org.scalatest._
 
 class LotofacilHtmlParserSpec extends FlatSpec with Matchers {
 
-
 	"The LotoFacil" should "have 1370 draws" in {
 		val file = getClass.getResource("/D_LOTFAC.HTM").getFile
 		val subject = new LotofacilHtmlParser(file)
