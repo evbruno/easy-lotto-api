@@ -1,6 +1,7 @@
 package lotto.api
 
 import org.slf4j.LoggerFactory
+import pl.project13.scala.rainbow.Rainbow
 
 trait LottoLogger {
 
@@ -12,9 +13,22 @@ trait LottoLogger {
 
 	def line() = println(_line)
 
-	def info(what: String): Unit = {
+	def lineFor(what: String) = {
 		val space = " " * (width - what.length - 5)
-		println(s"# $what $space ${_char}")
+		s"# $what $space ${_char}"
+	}
+
+	def info(what: String) = println(lineFor(what))
+
+	import Rainbow._
+
+	def error(what: String) = Console.err.println(lineFor(what))
+
+	def error(what: String, t: Throwable) = {
+		Console.err.println(lineFor(what + ":").red)
+		Console.err.println(lineFor(" -> " + t.getMessage).red)
+		Console.err.println(lineFor(" -> stack: ").red)
+		t.printStackTrace(Console.err)
 	}
 
 }

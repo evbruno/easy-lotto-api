@@ -14,6 +14,12 @@ $ sbt
 $ sbt jobs/run
 ```
 
+## Accessing the API
+
+```
+$ curl --compressed -v -X GET http://localhost:9000/api/ping
+$ curl --compressed -v -X GET http://localhost:9000/api/lotofacil
+```
 
 ## Testing
 
@@ -24,16 +30,17 @@ $ sbt
 > test
 ```
 
+## Docker 
+
+```
+$ docker pull mongo:3.0.12
+$ docker run -p 27017:27017 --name mongo-3 -d mongo:3.0.12
+```
+
 
 ## Heroku dev
 
 ```bash
-$ heroku buildpacks:clear -a easy-loto-dev
-$ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-nodejs.git -a easy-loto-dev
-$ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-scala.git -a easy-loto-dev
-$ heroku buildpacks -a easy-loto-dev
-$ heroku config:set NPM_CONFIG_LOGLEVEL=verbose -a easy-loto-dev
-$ heroku config:set SBT_OPTS="-Dsbt.jse.engineType=Node"
-$ heroku config:set SBT_CLEAN=true
-
+# link current git folder to remote heroku project
+$ heroku git:remote -a easy-lotto-api
 ```

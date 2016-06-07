@@ -33,7 +33,9 @@ libraryDependencies ++= {
         // "org.scala-lang.modules" %% "scala-xml" % "1.0.5",
         // "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
 
-        "org.scalatest" %% "scalatest" % scalaTestV % "test"
+        "org.scalatest" %% "scalatest" % scalaTestV % "test",
+
+        "pl.project13.scala" %% "rainbow" % "0.2"
     )
 }
 
@@ -59,4 +61,4 @@ lazy val jobs = project.dependsOn(root)
         excludeDependencies += "com.typesafe.akka" %% "akka-http-experimental",
         excludeDependencies += "com.typesafe.akka" %% "akka-http-testkit-experimental",
         excludeDependencies += "com.typesafe.akka" %% "akka-http-spray-json-experimental"
-   )
+    )

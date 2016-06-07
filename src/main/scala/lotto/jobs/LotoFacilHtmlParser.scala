@@ -11,7 +11,7 @@ import scala.collection.mutable.ArrayBuffer
 class LotoFacilHtmlParser(fileName: String) extends lotto.api.LottoLogger {
 
 	line
-	info(s"File to parser: $fileName")
+	info(s"File to parse: $fileName")
 
 	lazy val browser = new Browser
 	lazy val doc = browser.parseFile(fileName)

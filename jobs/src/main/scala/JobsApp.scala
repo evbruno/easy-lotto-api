@@ -3,6 +3,7 @@ import lotto.jobs.LotoFacilJob
 
 import scala.concurrent._
 import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 
 object JobsApp extends App with LottoLogger {
 
@@ -10,10 +11,15 @@ object JobsApp extends App with LottoLogger {
 
 	val init = System.currentTimeMillis
 
-	val lotoFacil = LotoFacilJob.job()
+	val job = LotoFacilJob.job()
 
-	Await.ready(lotoFacil, 10.minutes)
+	Await.ready(job, 10.minutes)
 
-	info(s"Job's done, took ${System.currentTimeMillis - init} millis.")
+	job onComplete {
+		case Failure(t) =>
+			error("Error running job", t)
+		case Success(_) =>
+			info(s"Job's done, took ${System.currentTimeMillis - init} millis.")
+	}
 
 }

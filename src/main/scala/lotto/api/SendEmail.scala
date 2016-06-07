@@ -40,6 +40,8 @@ object SendEmail extends LottoLogger {
 
 		val future: Future[Response] = client.asyncProcess(request)
 
+		Await.ready(future, 5.minutes)
+
 		future.onComplete {
 			case Success(result) => info(s"Email sent result: ${result.body.asString}")
 			case Failure(t) => {
@@ -47,8 +49,6 @@ object SendEmail extends LottoLogger {
 				t.printStackTrace()
 			}
 		}
-
-		Await.ready(future, 5.minutes)
 
 		line
 		info(s"Email thread is done.")

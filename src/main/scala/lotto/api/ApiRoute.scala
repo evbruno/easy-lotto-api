@@ -22,21 +22,23 @@ trait ApiRoute extends BetProtocols
 
 	//import scala.concurrent.ExecutionContext.Implicits.global
 
-
 	implicit val system: ActorSystem
 
 	implicit val config: Config
 
-	import ApiRepo._
 	import system.dispatcher
+
+	// FIXME
+	// val apiRepo = ApiRepoMongo()
+	val apiRepo : ApiRepo
 
 	def betsF(d: Int) = Future {
 		println(s"getting bets for $d")
-		betsFor(d)
+		apiRepo.betsFor(d)
 	}
 
 	def resultsF = Future {
-		results
+		apiRepo.results
 	}
 
 	def findUser(s: String) : Directive1[Any] = ???
@@ -49,14 +51,13 @@ trait ApiRoute extends BetProtocols
 	val authDirective : Directive1[(Email, String)] =
 		(cookie("X-EL-AccessToken") & cookie("X-EL-UserEmail")).tflatMap {
 			case (HttpCookiePair(_, accessToken), HttpCookiePair(_, email)) =>
-				if (ApiRepo.isAuthorized(email, accessToken)) provide((email, accessToken))
+				if (apiRepo.isAuthorized(email, accessToken)) provide((email, accessToken))
 				else reject(AuthorizationFailedRejection)
 			case _ => reject
 		}
 
-	//private lazy val extraDirectives = logRequestResult("easy-loto-api")
-	private lazy val extraDirectives = logRequestResult("easy-loto-api") & encodeResponseWith(Gzip)
-
+	//private lazy val extraDirectives = logRequestResult("easy-lotto-api")
+	private lazy val extraDirectives = logRequestResult("easy-lotto-api") & encodeResponseWith(Gzip)
 
 	val apiRoute =
 		path("") {
@@ -65,45 +66,20 @@ trait ApiRoute extends BetProtocols
 		(extraDirectives & pathPrefix("api")) {
 
 			(get & path("ping")) {
-				complete { "pong" }
+				complete { s"pong at ${new java.util.Date()}" }
 			} ~
 				(get & path("lotofacil") & encodeResponse) {
-					onSuccess(resultsF) { r => complete(r.take(100).toJson)	}
+					onSuccess(resultsF) { r => complete(r.take(10).toJson)	}
 			} ~
 				(get & path("lotofacil" / IntNumber / "bets")) { drawNumber =>
 					onSuccess(betsF(drawNumber)) { h => complete(h.toJson) }
 			} ~
 				(post & path("lotofacil" / "bets") &  entity(as[Bets])) { bets =>
 					authDirective { authResp =>
-						val nb = ApiRepo.save(bets)
+						val nb = apiRepo.save(bets)
 						complete(Map("ok" -> nb).toJson)
 					}
 				}
-	}
-
-
-	val staticFilesRoute = {
-		path("") {
-			getFromResource("www/main.html")
-		} ~
-		pathPrefix("css") {
-			getFromResourceDirectory("www/css")
-		} ~
-		pathPrefix("font") {
-			getFromResourceDirectory("www/font")
-		} ~
-		pathPrefix("js") {
-			getFromResourceDirectory("www/js")
-		} ~
-		pathPrefix("img") {
-			getFromResourceDirectory("www/img")
-		} ~
-		pathPrefix("lib") {
-			getFromResourceDirectory("www/lib")
-		} ~
-		pathPrefix("lotofacil") {
-			getFromResourceDirectory("www/lotofacil")
-		}
 	}
 
 }
