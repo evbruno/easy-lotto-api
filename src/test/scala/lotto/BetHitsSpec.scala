@@ -1,4 +1,4 @@
-package loto
+package lotto
 
 import lotto.api.{Result, Bet}
 import org.scalatest._

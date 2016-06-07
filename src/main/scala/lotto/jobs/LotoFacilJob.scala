@@ -5,13 +5,13 @@ import lotto.api._
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.{Future, ExecutionContext}
 
-object LotoFacilJob extends lotto.api.LottoLogger {
+object LotofacilJob extends lotto.api.LottoLogger {
 
 	def job()(implicit ex: ExecutionContext) = Future {
 		val apiRepo : ApiRepo = ApiRepoMongo()
 
-		val downloader = new LotoFacilDownloadZip
-		val parser = new LotoFacilHtmlParser(downloader.download)
+		val downloader = new LotofacilDownloadZip
+		val parser = new LotofacilHtmlParser(downloader.download)
 
 		val results = parser.parse
 
@@ -34,6 +34,7 @@ object LotoFacilJob extends lotto.api.LottoLogger {
 		info(emailContent)
 		info("####@@@@@@@ ")
 
+		// FIXME : try-catch evil
 		try {
 			SendEmail.send(emailContent)
 		} catch {

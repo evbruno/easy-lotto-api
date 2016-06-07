@@ -2,7 +2,7 @@ package lotto.api
 
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.{MongoClientURI, MongoDB}
-import lotto.jobs.LotoFacilJob
+import lotto.jobs.LotofacilJob
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try

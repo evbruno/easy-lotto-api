@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils
 import scala.language.postfixOps
 import scala.sys.process._
 
-class LotoFacilDownloadZip extends lotto.api.LottoLogger {
+class LotofacilDownloadZip extends lotto.api.LottoLogger {
 
 	CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL))
 

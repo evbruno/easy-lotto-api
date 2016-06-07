@@ -12,7 +12,8 @@ trait BetProtocols extends DefaultJsonProtocol {
 
 case class Result(draw: Int, drawDate: String, numbers: Numbers, prizes: List[Prize]) {
 	assert(draw > 0, s"Invalid draw: ${draw}")
-	assert(numbers.size == 15, s"Invalid number combination: ${numbers}")
+	// FIXME : LotteryType ?
+	//assert(numbers.size == 15, s"Invalid number combination: ${numbers}")
 }
 
 case class Bet(numbers: Numbers, owner: Option[String] = None) {

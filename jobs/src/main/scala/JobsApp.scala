@@ -1,5 +1,5 @@
 import lotto.api.LottoLogger
-import lotto.jobs.LotoFacilJob
+import lotto.jobs.LotofacilJob
 
 import scala.concurrent._
 import scala.concurrent.duration._
@@ -11,7 +11,7 @@ object JobsApp extends App with LottoLogger {
 
 	val init = System.currentTimeMillis
 
-	val job = LotoFacilJob.job()
+	val job = LotofacilJob.job()
 
 	Await.ready(job, 10.minutes)
 

@@ -5,7 +5,7 @@ enablePlugins(JavaAppPackaging)
 lazy val commonSettings = Seq(
   organization  := "com.github.evbruno",
   version       := "1.0-SNAPSHOT",
-  scalaVersion  := "2.11.7"
+  scalaVersion  := "2.11.8"
 )
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-Xlint", "-feature")
@@ -26,7 +26,7 @@ libraryDependencies ++= {
         "org.mongodb"	 	%% "casbah-core" 	% casbahVersion,
         "ch.qos.logback" 	% "logback-classic" % "1.1.3",
         "commons-io" 		% "commons-io" 		% "2.4",
-        "net.ruippeixotog" 	%% "scala-scraper" 	% "0.1.2",
+        "net.ruippeixotog" 	%% "scala-scraper" 	% "1.0.0",
 
 		"com.github.evbruno" %% "agatetepe" % "1.0.1",
 
