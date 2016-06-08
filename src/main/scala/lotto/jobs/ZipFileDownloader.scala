@@ -4,7 +4,7 @@ import java.io.{File, FileOutputStream}
 import java.net.{CookieHandler, CookieManager, CookiePolicy, URL}
 import java.util.zip.ZipFile
 
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.config.Config
 import lotto.api.LottoLogger
 import org.apache.commons.io.IOUtils
 
