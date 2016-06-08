@@ -6,11 +6,11 @@ trait ApiRepo {
 
 	// Result
 
-	def results: List[Result]
+	def results(lottery: Lottery) : List[Result]
 
 	// Draw
 
-	def lastDraw : Int
+	def lastDraw(lottery: Lottery) : Draw
 
 	// Bets
 

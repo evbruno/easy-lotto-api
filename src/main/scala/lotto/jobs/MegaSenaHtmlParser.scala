@@ -1,12 +1,16 @@
 package lotto.jobs
 
+import lotto.api.MegaSena
+
 class MegaSenaHtmlParser(val fileName: String) extends HtmlParser {
 
-	val minColumns = 17
+	override val lottery = MegaSena
 
-	val numbersRange = (2, 8)
+	override val minColumns = 17
 
-	val prizesTransformer = (line: Line) =>
+	override val numbersRange = (2, 8)
+
+	override val prizesTransformer = (line: Line) =>
 		(6 -> line(12)) ::
 		(5 -> line(14)) ::
 		(4 -> line(16)) :: Nil

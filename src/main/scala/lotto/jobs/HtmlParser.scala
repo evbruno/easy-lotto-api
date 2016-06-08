@@ -5,12 +5,11 @@ import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL.Parse._
 import net.ruippeixotog.scalascraper.dsl.DSL._
 
-import scala.collection.mutable.ArrayBuffer
-
 abstract class HtmlParser extends lotto.api.LottoLogger {
 
 	val fileName: String
 
+	val lottery: Lottery
 	val minColumns: Int
 	val numbersRange: (Int, Int)
 	val prizesTransformer: Line => List[Prize]
@@ -35,7 +34,7 @@ abstract class HtmlParser extends lotto.api.LottoLogger {
 			val date = line(1)
 			val prizes = prizesTransformer(line)
 
-			Result(draw = draw, numbers = numbers, drawDate = date, prizes = prizes)
+			Result(draw = draw, numbers = numbers, drawDate = date, prizes = prizes, lottery = lottery)
 
 		}.sortBy(r => r.draw)
 	}

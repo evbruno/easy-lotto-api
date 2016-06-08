@@ -11,8 +11,3 @@ class MegaSenaDownloadZip extends ZipFileDownloader {
 	override val config = ConfigFactory.load()
 
 }
-
-object SpikeApp2 extends App {
-	val op = new MegaSenaDownloadZip().download
-	println(s"Output path: $op")
-}

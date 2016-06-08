@@ -1,12 +1,16 @@
 package lotto.jobs
 
+import lotto.api.Lotofacil
+
 class LotofacilHtmlParser(val fileName: String) extends HtmlParser {
 
-	val minColumns = 30
+	override val lottery = Lotofacil
 
-	val numbersRange = (2, 17)
+	override val minColumns = 30
 
-	val prizesTransformer = (line: Line) =>
+	override val numbersRange = (2, 17)
+
+	override val prizesTransformer = (line: Line) =>
 		(15 -> line(25)) ::
 		(14 -> line(26)) ::
 		(13 -> line(27)) ::

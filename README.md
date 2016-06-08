@@ -19,6 +19,10 @@ $ sbt jobs/run
 ```
 $ curl --compressed -v -X GET http://localhost:9000/api/ping
 $ curl --compressed -v -X GET http://localhost:9000/api/lotofacil
+$ curl --compressed -v -X POST \
+	-H "Content-Type: application/json" \
+	http://localhost:9000/api/lotofacil/results \
+	-d '{ "prizes": [[1, "2"]], "drawDate": "11/05/2011", "numbers": [5,6,7], "draw": 9, "lottery": { "name": "lotofacil" } }'
 ```
 
 ## Testing

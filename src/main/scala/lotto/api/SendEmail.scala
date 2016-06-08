@@ -40,6 +40,7 @@ object SendEmail extends LottoLogger {
 
 		val future: Future[Response] = client.asyncProcess(request)
 
+		// FIXME timeout
 		Await.ready(future, 5.minutes)
 
 		future.onComplete {
@@ -54,5 +55,7 @@ object SendEmail extends LottoLogger {
 		info(s"Email thread is done.")
 		line
 	}
+
+	def canSendEmail = System.getenv("POSTMARK_API_TOKEN") != null && System.getenv("EMAIL_TO") != null
 
 }

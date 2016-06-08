@@ -8,7 +8,6 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.directives.{Credentials, MiscDirectives, RespondWithDirectives}
 import com.typesafe.config.Config
 
-
 import scala.concurrent.Future
 
 trait ApiRoute extends BetProtocols
@@ -38,10 +37,10 @@ trait ApiRoute extends BetProtocols
 	}
 
 	def resultsF = Future {
-		apiRepo.results
+		apiRepo.results(Lotofacil)
 	}
 
-	def findUser(s: String) : Directive1[Any] = ???
+//	def findUser(s: String) : Directive1[Any] = ???
 
 	val authDirective0 : Directive1[String] = cookie("X-EL-AccessToken").flatMap {
 		case x : HttpCookiePair => provide("ck:" + x.value)
@@ -62,8 +61,7 @@ trait ApiRoute extends BetProtocols
 	val apiRoute =
 		path("") {
 			complete("Hello there (=")
-		} ~
-		(extraDirectives & pathPrefix("api")) {
+		} ~ (extraDirectives & pathPrefix("api")) {
 
 			(get & path("ping")) {
 				complete { s"pong at ${new java.util.Date()}" }
@@ -79,6 +77,9 @@ trait ApiRoute extends BetProtocols
 						val nb = apiRepo.save(bets)
 						complete(Map("ok" -> nb).toJson)
 					}
+				} ~
+				(post & path("lotofacil" / "results") &  entity(as[Result])) { r =>
+					complete(Map("result inflate" -> r).toJson)
 				}
 	}
 

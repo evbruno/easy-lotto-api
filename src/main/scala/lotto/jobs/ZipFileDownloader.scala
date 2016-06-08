@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils
 
 import scala.sys.process._
 
-abstract class ZipFileDownloader extends LottoLogger {
+abstract class ZipFileDownloader extends FileDownloader with LottoLogger {
 
 	val configKey: String
 	val config: Config
@@ -23,7 +23,7 @@ abstract class ZipFileDownloader extends LottoLogger {
 
 	private def htmlFileName = config.getString(s"$prefix$configKey.html-file-name")
 
-	def download: String = {
+	override def download: String = {
 		val outputZip = File.createTempFile(configKey, ".zip")
 		val outputHtml = File.createTempFile(configKey, ".html")
 

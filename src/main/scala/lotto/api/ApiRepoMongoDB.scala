@@ -26,24 +26,27 @@ object ApiRepoMongo {
 }
 
 
-class ApiRepoMongo private(val mongoClient: MongoClient, val db: MongoDB) extends ApiRepo {
+class ApiRepoMongo private(val mongoClient: MongoClient, val db: MongoDB) extends ApiRepo with LottoLogger {
 
-	private val LOTO = "lotofacil"
-	private val MEGA = "mega-sena"
-
-	def disconnect() = mongoClient.close()
+	def disconnect() = {
+		info("API DISCONNECT	")
+		mongoClient.close()
+	}
 
 	private val dbResults = db("results")
 	private val dbBets = db("bets")
 	private val dbUsers = db("users")
 
-	def results: List[Result] = {
-		val cursor = dbResults.find().sort(MongoDBObject("draw" -> -1))
+	def results(lottery: Lottery): List[Result] = {
+		val query = ("lottery" $eq lottery.toSourceName)
+		val cursor = dbResults.find(query).sort(MongoDBObject("draw" -> -1))
+
 		(for (doc <- cursor) yield
 			Result(draw = doc.as[Int]("draw"),
 				numbers = doc.as[List[Int]]("numbers"),
 				drawDate = doc.as[String]("draw-date"),
-				prizes = extractPrizes(doc))
+				prizes = extractPrizes(doc),
+				lottery = lottery)
 			).toList
 	}
 
@@ -56,16 +59,17 @@ class ApiRepoMongo private(val mongoClient: MongoClient, val db: MongoDB) extend
 	}
 
 	def betsFor(draw: Draw): List[Bet] = {
-		val query = ("from" $lte draw) ++
-			("to" $gte draw) ++
-			("source" $eq LOTO)
-
-		(
-			for {
-				doc <- dbBets.find(query)
-				numbers <- doc.as[List[BasicDBList]]("numbers")
-			} yield Bet(numbers = extractNumbers(numbers), owner = Some(doc.as[String]("key")))
-			).toList
+		???
+//		val query = ("from" $lte draw) ++
+//			("to" $gte draw) ++
+//			("source" $eq LOTO)
+//
+//		(
+//			for {
+//				doc <- dbBets.find(query)
+//				numbers <- doc.as[List[BasicDBList]]("numbers")
+//			} yield Bet(numbers = extractNumbers(numbers), owner = Some(doc.as[String]("key")))
+//			).toList
 	}
 
 	def betsFor(user: UserInfo): List[Bets] = {
@@ -108,8 +112,9 @@ class ApiRepoMongo private(val mongoClient: MongoClient, val db: MongoDB) extend
 		doc.map(_.asInstanceOf[Int]).toList
 	}
 
-	def lastDraw: Int = {
-		val query = MongoDBObject() // All documents
+	def lastDraw(lottery: Lottery): Draw = {
+		val query = "lottery" $eq lottery.toSourceName
+
 		val fields = MongoDBObject("draw" -> 1)
 		val orderBy = MongoDBObject("draw" -> -1)
 
@@ -125,7 +130,7 @@ class ApiRepoMongo private(val mongoClient: MongoClient, val db: MongoDB) extend
 		dbResults insert MongoDBObject(
 			"draw" -> obj.draw,
 			"numbers" -> obj.numbers,
-			"source" -> LOTO,
+			"lottery" -> obj.lottery.toSourceName,
 			"draw-date" -> obj.drawDate,
 			"prizes" -> obj.prizes
 		)

@@ -5,7 +5,9 @@ import pl.project13.scala.rainbow.Rainbow
 
 trait LottoLogger {
 
-//	private lazy val logger = LoggerFactory.getLogger(this.getClass)
+	import Rainbow._
+
+	//	private lazy val logger = LoggerFactory.getLogger(this.getClass)
 
 	private val width = 80
 	private val _char = "#"
@@ -20,7 +22,7 @@ trait LottoLogger {
 
 	def info(what: String) = println(lineFor(what))
 
-	import Rainbow._
+	def warn(what: String) = println(lineFor(what).yellow)
 
 	def error(what: String) = Console.err.println(lineFor(what))
 

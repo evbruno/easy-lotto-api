@@ -1,71 +1,21 @@
 package lotto.jobs
 
-import lotto.api._
+import lotto.api.{Lotofacil, ApiRepo}
 
-import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.{Future, ExecutionContext}
+class LotofacilJob(implicit val apiRepo : ApiRepo) extends JobTemplate {
 
-object LotofacilJob extends lotto.api.LottoLogger {
+	private val ENV_KEY: String = "EASY_LOTTO_API_LOTOFACIL_FILE"
 
-	def job()(implicit ex: ExecutionContext) = Future {
-		val apiRepo : ApiRepo = ApiRepoMongo()
+	override val downloader =
+		if (sys.env(ENV_KEY) != null) {
+			val f = sys.env(ENV_KEY)
+			warn(s"Local file for Lotofacil: $f")
+			new LocalFileDownloader(f)
+		} else
+			new LotofacilDownloadZip()
 
-		val downloader = new LotofacilDownloadZip
-		val parser = new LotofacilHtmlParser(downloader.download)
+	override val parserFactory = (file: String) => new LotofacilHtmlParser(file)
 
-		val results = parser.parse
-
-		line
-		info(s"Results.size: ${results.size}")
-		info(s"Results.head: ${results.head}")
-		line
-
-		val last: Draw = apiRepo.lastDraw
-
-		val ret = resultsFor(apiRepo, last, results)
-
-		info(s"Ret: $ret")
-
-		apiRepo.disconnect()
-
-		val emailContent = emailBody(ret)
-
-		info("####@@@@@@@ ")
-		info(emailContent)
-		info("####@@@@@@@ ")
-
-		// FIXME : try-catch evil
-		try {
-			SendEmail.send(emailContent)
-		} catch {
-			case x : Throwable => {
-				info("Error sending email")
-				x.printStackTrace()
-			}
-		}
-
-		line
-		info(s"The End.")
-		line
-	}
-
-	private def resultsFor(apiRepo: ApiRepo, last: Draw, results: Seq[Result]) =
-		if (last == results.last.draw)
-			"Records are on date. Nothing else to do..."
-		else {
-			results filter (_.draw > last) foreach (apiRepo.save _)
-			if (last == 0) "Save'em all [init] !"
-			else s"Save concursos > $last"
-		}
-
-	private def emailBody(ret: String) =
-		s"""<html>
-			| <body>
-			| 	<h1>EasyLottoApi notifier</h1>
-			| 	<p>Import result:</p>
-			| 	<strong>$ret</strong>
-			| </body>
-			| </html>""".stripMargin
-
+	override val lottery = Lotofacil
 
 }

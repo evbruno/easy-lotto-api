@@ -1,21 +1,15 @@
 package lotto.jobs
 
-sealed class LotteryType
-
-case object Lotofacil extends LotteryType
-
-case object MegaSena extends LotteryType
-
-
+import lotto.api.Lottery
 
 abstract sealed class JobResult {
-	val lottery: LotteryType
+	val lottery: Lottery
 }
 
-case class UpToDate(lottery: LotteryType) extends JobResult
+case class UpToDate(lottery: Lottery) extends JobResult
 
-case class FewInserts(lottery: LotteryType, draws: Array[Int]) extends JobResult
+case class FewInserts(lottery: Lottery, draws: Seq[Int]) extends JobResult
 
-case class FullImport(lottery: LotteryType, total: Int) extends JobResult
+case class FullImport(lottery: Lottery, total: Int) extends JobResult
 
 
