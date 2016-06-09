@@ -1,6 +1,6 @@
 package lotto.jobs
 
-import lotto.api.{Lotofacil, ApiRepo}
+import lotto.api.{ApiRepo, Lotofacil}
 
 class LotofacilJob(implicit val apiRepo : ApiRepo) extends JobTemplate {
 

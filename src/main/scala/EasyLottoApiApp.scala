@@ -4,7 +4,8 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.typesafe.config.ConfigFactory
-import lotto.api.{ApiRepoMongo, ApiRoute}
+import lotto.api.ApiRepoMongo
+import lotto.web.ApiRoute
 
 object EasyLottoApiApp extends App with ApiRoute {
 

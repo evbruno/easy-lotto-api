@@ -1,12 +1,12 @@
-package lotto.api
-
+package lotto.jobs
 
 import agatetepe.Entity.Request._
 import agatetepe.Entity.Response
 import agatetepe.{HttpClient, _}
+import lotto.api.LottoLogger
 
-import scala.concurrent.{ExecutionContext, _}
 import scala.concurrent.duration._
+import scala.concurrent.{ExecutionContext, _}
 import scala.util.{Failure, Success}
 
 /*

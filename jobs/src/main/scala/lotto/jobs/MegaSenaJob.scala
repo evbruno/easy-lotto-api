@@ -1,6 +1,6 @@
 package lotto.jobs
 
-import lotto.api.{MegaSena, ApiRepo}
+import lotto.api.{ApiRepo, MegaSena}
 
 class MegaSenaJob(implicit val apiRepo : ApiRepo) extends JobTemplate {
 

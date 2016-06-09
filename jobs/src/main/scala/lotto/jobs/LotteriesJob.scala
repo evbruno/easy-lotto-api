@@ -1,7 +1,7 @@
 package lotto.jobs
 
-import com.typesafe.config.{ConfigFactory, Config}
-import lotto.api.{SendEmail, ApiRepo, ApiRepoMongo, LottoLogger}
+import com.typesafe.config.ConfigFactory
+import lotto.api.{ApiRepo, ApiRepoMongo, LottoLogger}
 import pl.project13.scala.rainbow.Rainbow
 
 import scala.concurrent.duration._

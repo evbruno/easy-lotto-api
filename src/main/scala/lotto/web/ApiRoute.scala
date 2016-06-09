@@ -1,17 +1,17 @@
-package lotto.api
+package lotto.web
 
 import akka.actor.ActorSystem
 import akka.event.LoggingAdapter
-import akka.http.scaladsl.coding.Gzip
 import akka.http.scaladsl.server.Directives._
+import lotto.api.{ApiRepo, Lotofacil, Lottery, LottoLogger, MegaSena}
 
 import scala.concurrent.Future
 
-trait ApiRoute extends BetProtocols
+trait ApiRoute extends ApiProtocols
 	with LottoLogger {
 
+	//import spray.json._
 	import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-//	import spray.json._
 
 	implicit val apiRepo : ApiRepo
 	implicit val system: ActorSystem

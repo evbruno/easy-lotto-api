@@ -1,6 +1,5 @@
 package lotto.jobs
 
-
 trait FileDownloader {
 
 	def download : String
