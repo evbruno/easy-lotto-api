@@ -13,15 +13,15 @@ scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-Xlint"
 //fork in run := true
 
 libraryDependencies ++= {
-    val akkaStreamV = "2.0.3"
+    val akkaStreamV = "2.4.7"
     val scalaTestV = "2.2.5"
-    val casbahVersion = "2.8.2"
+    val casbahVersion = "3.1.1"
     Seq(
-        "com.typesafe.akka" %% "akka-stream-experimental" % akkaStreamV,
-        "com.typesafe.akka" %% "akka-http-core-experimental" % akkaStreamV,
+        "com.typesafe.akka" %% "akka-stream" % akkaStreamV,
+        "com.typesafe.akka" %% "akka-http-core" % akkaStreamV,
         "com.typesafe.akka" %% "akka-http-experimental" % akkaStreamV,
         "com.typesafe.akka" %% "akka-http-spray-json-experimental" % akkaStreamV,
-        "com.typesafe.akka" %% "akka-http-testkit-experimental" % akkaStreamV,
+        "com.typesafe.akka" %% "akka-http-testkit" % akkaStreamV,
 
         "org.mongodb"	 	%% "casbah-core" 	% casbahVersion,
         "ch.qos.logback" 	% "logback-classic" % "1.1.3",

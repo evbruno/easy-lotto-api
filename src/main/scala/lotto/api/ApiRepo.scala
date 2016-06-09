@@ -8,6 +8,8 @@ trait ApiRepo {
 
 	def results(lottery: Lottery) : List[Result]
 
+	def findResult(lottery: Lottery, draw: Draw) : Option[Result]
+
 	// Draw
 
 	def lastDraw(lottery: Lottery) : Draw

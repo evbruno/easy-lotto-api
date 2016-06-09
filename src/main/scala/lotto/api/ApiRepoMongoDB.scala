@@ -1,6 +1,7 @@
 package lotto.api
 
 import com.mongodb.casbah.Imports._
+import com.mongodb.casbah.commons.TypeImports
 import com.mongodb.casbah.{MongoClientURI, MongoDB}
 import lotto.jobs.LotofacilJob
 
@@ -37,17 +38,32 @@ class ApiRepoMongo private(val mongoClient: MongoClient, val db: MongoDB) extend
 	private val dbBets = db("bets")
 	private val dbUsers = db("users")
 
+	private def toResult(doc: TypeImports.DBObject, lottery: Lottery) =
+		Result(draw = doc.as[Int]("draw"),
+				numbers = doc.as[List[Int]]("numbers"),
+				drawDate = doc.as[String]("draw-date"),
+				prizes = extractPrizes(doc),
+				lottery = lottery)
+
 	def results(lottery: Lottery): List[Result] = {
 		val query = ("lottery" $eq lottery.toSourceName)
 		val cursor = dbResults.find(query).sort(MongoDBObject("draw" -> -1))
 
 		(for (doc <- cursor) yield
-			Result(draw = doc.as[Int]("draw"),
-				numbers = doc.as[List[Int]]("numbers"),
-				drawDate = doc.as[String]("draw-date"),
-				prizes = extractPrizes(doc),
-				lottery = lottery)
-			).toList
+			toResult(doc, lottery)
+		).toList
+	}
+
+	def findResult(lottery: Lottery, draw: Draw): Option[Result] = {
+		val query = $and(
+			("lottery" -> lottery.toSourceName),
+			("draw" -> draw)
+		)
+
+		dbResults findOne(query) match {
+			case None => None
+			case Some(doc) => Some(toResult(doc, lottery))
+		}
 	}
 
 	private def extractPrizes(doc: DBObject): List[Prize] = {
