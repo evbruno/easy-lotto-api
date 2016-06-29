@@ -14,16 +14,17 @@ case class Result(draw: Int,
 
 
 // FIXME: update lottery
-case class Bet(numbers: Numbers,
-               owner: Option[String] = None) {
-
-	assert(numbers.size == 15, s"Invalid number combination: ${numbers}")
-
-}
+//case class Bet(numbers: Numbers,
+//               owner: Option[String] = None) {
+//
+//	assert(numbers.size == 15, s"Invalid number combination: ${numbers}")
+//
+//}
 
 case class Bets(owner: String,
+                lottery: Lottery,
 				from: Draw,
 				to: Draw,
-				fellows: Seq[Email],
 				numbers: Seq[Numbers],
+				fellows: Seq[Email] = Seq.empty,
 				id: Option[_ID] = None)

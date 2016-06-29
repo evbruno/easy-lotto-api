@@ -18,11 +18,11 @@ trait ApiRepo {
 
 	def save(obj: Result)
 
-	def betsFor(draw: Draw): List[Bet]
+	// def betsFor(draw: Draw): List[Bet]
 
 	def save(bets: Bets): Bets
 
-	def betsFor(user: UserInfo): List[Bets]
+	def betsFor(userEmail: String, lottery: Lottery): List[Bets]
 
 	// UserInfo
 

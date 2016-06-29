@@ -69,25 +69,10 @@ class ApiRepoMongo private(val mongoClient: MongoClient, val db: MongoDB) extend
 		res.toList
 	}
 
-	def betsFor(draw: Draw): List[Bet] = {
-		???
-//		val query = ("from" $lte draw) ++
-//			("to" $gte draw) ++
-//			("source" $eq LOTO)
-//
-//		(
-//			for {
-//				doc <- dbBets.find(query)
-//				numbers <- doc.as[List[BasicDBList]]("numbers")
-//			} yield Bet(numbers = extractNumbers(numbers), owner = Some(doc.as[String]("key")))
-//			).toList
-	}
-
-	def betsFor(user: UserInfo): List[Bets] = {
-		val query = $or(
-			("owner" -> user.email),
-			("fellows" -> user.email)
-		)
+	def betsFor(userEmail: String, lottery: Lottery): List[Bets] = {
+		val ownerQuery = $or(("owner" -> userEmail),("fellows" -> userEmail))
+		val lotteryQuery = "lottery" $eq lottery.toSourceName
+		val query = ownerQuery ++ lotteryQuery
 
 		def keyOr[A](doc: DBObject, key: String, default: => A)(implicit m: Manifest[A]): A =
 			if (doc.contains(key)) doc.as[A](key)
@@ -97,6 +82,7 @@ class ApiRepoMongo private(val mongoClient: MongoClient, val db: MongoDB) extend
 			for {
 				doc <- dbBets.find(query)
 			} yield Bets(owner = doc.as[String]("owner"),
+				lottery = lottery,
 				from = doc.as[Int]("from"),
 				to = doc.as[Int]("to"),
 				fellows = keyOr(doc, "fellows", Seq.empty),
@@ -110,7 +96,8 @@ class ApiRepoMongo private(val mongoClient: MongoClient, val db: MongoDB) extend
 			"from" -> bets.from,
 			"to" -> bets.to,
 			"fellows" -> bets.fellows,
-			"numbers" -> bets.numbers
+			"numbers" -> bets.numbers,
+			"lottery" -> bets.lottery.toSourceName
 		)
 
 		dbBets insert doc
@@ -197,4 +184,3 @@ class ApiRepoMongo private(val mongoClient: MongoClient, val db: MongoDB) extend
 
 
 }
-

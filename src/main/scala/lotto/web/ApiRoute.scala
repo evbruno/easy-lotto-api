@@ -8,6 +8,7 @@ import lotto.api.{ApiRepo, Lotofacil, Lottery, LottoLogger, MegaSena}
 import scala.concurrent.Future
 
 trait ApiRoute extends ApiProtocols
+	with EnableCORSDirectives
 	with LottoLogger {
 
 	//import spray.json._
@@ -39,7 +40,7 @@ trait ApiRoute extends ApiProtocols
 	}
 
 	// private lazy val extraDirectives = logRequestResult("easy-lotto-api") & encodeResponseWith(Gzip)
-	private lazy val extraDirectives = logRequestResult("easy-lotto-api")
+	private lazy val extraDirectives = logRequestResult("easy-lotto-api") & enableCORS
 
 	private def routeFor(lottery: Lottery) =
 		pathPrefix("api") { extraDirectives {

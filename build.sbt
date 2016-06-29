@@ -14,6 +14,7 @@ lazy val versions = new {
     val agatetepe = "1.0.1"
     val scalaTest = "2.2.5"
     val rainbow = "0.2"
+    val embedMongo = "0.2.2"
 }
 
 lazy val commonSettings = Seq(
@@ -45,7 +46,8 @@ lazy val api = project
     .settings(commonSettings: _*)
     .settings(name := "easy-lotto-api-api")
     .settings(libraryDependencies ++= Seq(
-        "org.mongodb" %% "casbah-core" % versions.casbah
+        "org.mongodb"            %% "casbah-core"          % versions.casbah,
+        "com.github.simplyscala" %% "scalatest-embedmongo" % versions.embedMongo % "test"
     ))
 
 lazy val jobs = project.dependsOn(api)

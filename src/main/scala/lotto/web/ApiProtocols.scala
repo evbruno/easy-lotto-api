@@ -1,6 +1,6 @@
 package lotto.web
 
-import lotto.api.{Bet, Bets, Lottery, Result}
+import lotto.api.{Bets, Lottery, Result}
 import spray.json.{JsString, _}
 
 trait ApiProtocols extends DefaultJsonProtocol {
@@ -22,8 +22,7 @@ trait ApiProtocols extends DefaultJsonProtocol {
 		}
 	}
 
-	implicit val betFormat = jsonFormat2(Bet.apply)
 	implicit val resultFormat: RootJsonFormat[Result] = jsonFormat5(Result.apply)
-	implicit val betsFormat: RootJsonFormat[Bets] = jsonFormat6(Bets.apply)
+	implicit val betsFormat: RootJsonFormat[Bets] = jsonFormat7(Bets.apply)
 
 }
