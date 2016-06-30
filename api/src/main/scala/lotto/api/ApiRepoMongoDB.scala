@@ -78,16 +78,19 @@ class ApiRepoMongo private(val mongoClient: MongoClient, val db: MongoDB) extend
 			if (doc.contains(key)) doc.as[A](key)
 			else default
 
-		(
-			for {
+		def basicListToSeqOfNumbers(doc: MongoDBList) =
+			doc.map(_.asInstanceOf[BasicDBList].toList).asInstanceOf[Seq[IndexedSeq[Int]]]
+
+		val bets = for {
 				doc <- dbBets.find(query)
 			} yield Bets(owner = doc.as[String]("owner"),
 				lottery = lottery,
 				from = doc.as[Int]("from"),
 				to = doc.as[Int]("to"),
 				fellows = keyOr(doc, "fellows", Seq.empty),
-				numbers = doc.as[Seq[Numbers]]("numbers"))
-			).toList
+				numbers = basicListToSeqOfNumbers(doc.as[MongoDBList]("numbers")))
+
+		bets.toList
 	}
 
 	def save(bets: Bets): Bets = {

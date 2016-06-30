@@ -1,8 +1,8 @@
 package lotto.api
 
 import com.github.simplyscala.{MongoEmbedDatabase, MongodProps}
+import com.mongodb.BasicDBList
 import org.scalatest.{BeforeAndAfter, FunSuite, Inside, Matchers}
-
 
 class ApiRepoMongoSuite extends FunSuite
 	with MongoEmbedDatabase
@@ -34,29 +34,32 @@ class ApiRepoMongoSuite extends FunSuite
 			from = 1,
 			to = 1000,
 			numbers = Seq(
-				List(1, 2, 3, 4, 5, 6)
+				List(1, 2, 3, 4, 5, 6),
+				List(1, 2, 3, 4, 5, 8)
 			),
 			fellows = Seq.empty
 		)
 
-		api.db("bets").size should be (0)
+		api.db("bets").size should be(0)
 
 		api.save(bets)
 
-		api.db("bets").size should be (1)
+		api.db("bets").size should be(1)
 
 		val betsFind = api.betsFor("edu.chaos@gmail.com", MegaSena)
 
-		betsFind.size should be (1)
+		betsFind.size should be(1)
 
 		inside(betsFind(0)) { case Bets(owner, lottery, from, to, numbers, fellows, _) =>
-				owner should be ("edu.chaos@gmail.com")
-				lottery should be (MegaSena)
-				from should be (1)
-				to should be (1000)
-				// FIXME
-				//numbers should contain (List(1, 2, 3, 4, 5, 6))
-				fellows shouldBe empty
+			owner should be("edu.chaos@gmail.com")
+			lottery should be(MegaSena)
+			from should be(1)
+			to should be(1000)
+			numbers should contain allOf(
+				List(1, 2, 3, 4, 5, 6),
+				List(1, 2, 3, 4, 5, 8)
+			)
+			fellows shouldBe empty
 		}
 	}
 
@@ -65,7 +68,7 @@ class ApiRepoMongoSuite extends FunSuite
 		val result = Result(
 			draw = 1,
 			drawDate = "1/1/1111",
-			numbers = List(1,2,3,4,5,6),
+			numbers = List(1, 2, 3, 4, 5, 6),
 			prizes = List(
 				(5, "$ 5,00"),
 				(6, "$ 6,00")
@@ -73,23 +76,21 @@ class ApiRepoMongoSuite extends FunSuite
 			lottery = MegaSena
 		)
 
-		api.db("results").size should be (0)
+		api.db("results").size should be(0)
 
 		api.save(result)
 
-		api.db("results").size should be (1)
+		api.db("results").size should be(1)
 
 		val resultsFind = api.results(MegaSena)
 
-		resultsFind.size should be (1)
+		resultsFind.size should be(1)
 
 		inside(resultsFind(0)) { case Result(draw, drawDate, numbers, prizes, lottery) =>
-			lottery should be (MegaSena)
-			draw should be (1)
-			drawDate should be ("1/1/1111")
-			// FIXME
-			//numbers should ???
-			numbers should not be empty
+			lottery should be(MegaSena)
+			draw should be(1)
+			drawDate should be("1/1/1111")
+			numbers should contain allOf(1, 2, 3, 4, 5, 6)
 		}
 	}
 
