@@ -20,11 +20,9 @@ trait ApiRoute extends ApiProtocols
 
 	import system.dispatcher
 
-	val staticFilesRoute = path("") {
-			getFromResource("www/index.html")
-	}
+	lazy val staticFilesRoute = path("") {	getFromResource("www/index.html") }
 
-	val apiRoute = routeFor(Lotofacil) ~ routeFor(MegaSena)
+	lazy val apiRoute = routeFor(Lotofacil) ~ routeFor(MegaSena)
 
 	private val pageSize = 5
 
@@ -42,6 +40,7 @@ trait ApiRoute extends ApiProtocols
 	// private lazy val extraDirectives = logRequestResult("easy-lotto-api") & encodeResponseWith(Gzip)
 	private lazy val extraDirectives = logRequestResult("easy-lotto-api") & enableCORS
 
+	// public api
 	private def routeFor(lottery: Lottery) =
 		pathPrefix("api") { extraDirectives {
 			get {

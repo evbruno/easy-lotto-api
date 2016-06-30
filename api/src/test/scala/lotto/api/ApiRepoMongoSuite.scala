@@ -1,7 +1,6 @@
 package lotto.api
 
 import com.github.simplyscala.{MongoEmbedDatabase, MongodProps}
-import com.mongodb.BasicDBList
 import org.scalatest.{BeforeAndAfter, FunSuite, Inside, Matchers}
 
 class ApiRepoMongoSuite extends FunSuite

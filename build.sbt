@@ -39,7 +39,7 @@ lazy val root = (project in file("."))
         "com.typesafe.akka" %% "akka-http-core"                    % versions.akka,
         "com.typesafe.akka" %% "akka-http-experimental"            % versions.akka,
         "com.typesafe.akka" %% "akka-http-spray-json-experimental" % versions.akka,
-        "com.typesafe.akka" %% "akka-http-testkit"                 % versions.akka
+        "com.typesafe.akka" %% "akka-http-testkit"                 % versions.akka % "test"
     ))
 
 lazy val api = project
