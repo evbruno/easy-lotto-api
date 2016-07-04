@@ -3,6 +3,7 @@ package lotto.api
 import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.commons.TypeImports
 import com.mongodb.casbah.{MongoClientURI, MongoDB}
+import lotto.api.Lottery.Lottery
 
 object ApiRepoMongo {
 

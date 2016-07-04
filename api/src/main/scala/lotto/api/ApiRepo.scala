@@ -1,5 +1,7 @@
 package lotto.api
 
+import lotto.api.Lottery.Lottery
+
 trait ApiRepo {
 
 	def disconnect()

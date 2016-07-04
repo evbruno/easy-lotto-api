@@ -1,9 +1,9 @@
 package lotto.jobs
 
-import lotto.api.Lottery
+import lotto.api.Lottery._
 
 abstract sealed class JobResult {
-	val lottery: Lottery
+  val lottery: Lottery
 }
 
 case class UpToDate(lottery: Lottery) extends JobResult

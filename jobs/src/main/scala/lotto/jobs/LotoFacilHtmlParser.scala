@@ -1,6 +1,6 @@
 package lotto.jobs
 
-import lotto.api.Lotofacil
+import lotto.api.Lottery.Lotofacil
 
 class LotofacilHtmlParser(val fileName: String) extends HtmlParser {
 

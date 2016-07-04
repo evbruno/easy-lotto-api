@@ -1,5 +1,6 @@
 package lotto.web
 
+import lotto.api.Lottery.{Lottery, MegaSena}
 import lotto.api._
 
 class ApiRepoMem extends ApiRepo {
@@ -27,5 +28,6 @@ class ApiRepoMem extends ApiRepo {
 
 	override def findUser(email: Email): Option[UserInfo] = ???
 
-	override def findResult(lottery: Lottery, draw: Draw): Option[Result] = ???
+	override def findResult(lottery: Lottery, draw: Draw): Option[Result] =
+		Some(Result(2, "2/2/2222", List(1, 2, 3, 4, 5, 7), List((5, "$ 8,00"), (6, "$ 9,00")), MegaSena))
 }

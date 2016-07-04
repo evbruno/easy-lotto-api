@@ -1,6 +1,7 @@
 package lotto.api
 
 import lotto.api
+import lotto.api.Lottery.{Lotofacil, MegaSena}
 import org.scalatest._
 
 class BetHitsSpec extends FlatSpec with Matchers {

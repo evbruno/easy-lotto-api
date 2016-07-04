@@ -1,5 +1,6 @@
 package lotto.jobs
 
+import lotto.api.Lottery.Lottery
 import lotto.api._
 import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import net.ruippeixotog.scalascraper.dsl.DSL.Parse._

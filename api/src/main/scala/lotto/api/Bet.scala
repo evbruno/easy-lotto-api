@@ -1,14 +1,16 @@
 package lotto.api
 
-case class Result(draw: Int,
-				  drawDate: String,
-				  numbers: Numbers,
-				  prizes: List[Prize],
-				  lottery: Lottery) {
+import lotto.api.Lottery.Lottery
 
-	assert(draw > 0, s"Invalid draw: ${draw}")
-	// FIXME: remove Option murderer !
-	assert(numbers.toSet.size == Lottery.drawnNumbers(lottery).get, s"Invalid number combination: ${numbers.mkString(", ")}")
+case class Result(draw: Int,
+                  drawDate: String,
+                  numbers: Numbers,
+                  prizes: List[Prize],
+                  lottery: Lottery) {
+
+  assert(draw > 0, s"Invalid draw: ${draw}")
+  // FIXME: remove Option murderer !
+  assert(numbers.toSet.size == Lottery.drawnNumbers(lottery).get, s"Invalid number combination: ${numbers.mkString(", ")}")
 
 }
 
@@ -23,8 +25,8 @@ case class Result(draw: Int,
 
 case class Bets(owner: String,
                 lottery: Lottery,
-				from: Draw,
-				to: Draw,
-				numbers: Seq[Numbers],
-				fellows: Seq[Email] = Seq.empty,
-				id: Option[_ID] = None)
+                from: Draw,
+                to: Draw,
+                numbers: Seq[Numbers],
+                fellows: Seq[Email] = Seq.empty,
+                id: Option[_ID] = None)
